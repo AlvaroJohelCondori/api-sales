@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Actions\Products\ListProducts;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
+use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
-    //
-    public function index()
+    public function index(ListProducts $listProducts): JsonResponse
     {
-        $products = Product::select('id', 'name', 'price', 'stock', 'image')->get();
-
-        return response()->json($products, 200);
+        return response()->json(ProductResource::collection($listProducts->handle()));
     }
 }
